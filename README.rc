@@ -11,4 +11,6 @@ This is intended to show problem decomposition, not so much systems architecture
 
 There are a few pieces that need more testing (serialization / deseriaization, paymentSchedule isn't full tested etc).  But, with the exception of the paymentSchedule component, those would become integration tests in the future and that was out of scope.
 
+One additional note, I really didn't have time to do as much refactoring as I would prefer and there was no code review cycle so I don't think this is as clean as, again, what would end up in production.
+
 Looking forward to discussing.
