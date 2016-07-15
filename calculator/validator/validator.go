@@ -28,10 +28,10 @@ func formatAmountForError(amount int64) string {
 	return fmt.Sprintf("%.2f", float64(amount)/100)
 }
 
-func Validate(mortgagePaymentRequest models.MortgagePaymentRequest) (bool, error) {
+func Validate(mortgagePaymentRequest models.MortgagePaymentRequest) error {
 	err := sanityCheck(mortgagePaymentRequest)
 	if err != nil {
-		return false, err
+		return err
 	}
 
 	err = validateDownpaymentMinimum(
@@ -40,16 +40,16 @@ func Validate(mortgagePaymentRequest models.MortgagePaymentRequest) (bool, error
 	)
 
 	if err != nil {
-		return false, err
+		return err
 	}
 
 	err = validateAmortizationPeriod(mortgagePaymentRequest.AmortizationPeriod)
 
 	if err != nil {
-		return false, err
+		return err
 	}
 
-	return true, nil
+	return nil
 }
 
 func sanityCheck(mortgagePaymentRequest models.MortgagePaymentRequest) error {

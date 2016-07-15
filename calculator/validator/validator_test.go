@@ -16,14 +16,20 @@ var sampleRequest = models.MortgagePaymentRequest{
 
 func TestSpec(t *testing.T) {
 	Convey("request validation", t, func() {
+		Convey("happy path", func() {
+			req := sampleRequest
+
+			err := Validate(req)
+
+			So(err, ShouldBeNil)
+		})
 		Convey("The basic request must be sane", func() {
 			req := sampleRequest
 
 			req.AskingPrice = 0
 
-			ok, err := Validate(req)
+			err := Validate(req)
 
-			So(ok, ShouldBeFalse)
 			So(err.Error(), ShouldEqual,
 				"validation error, asking price must be > 0")
 		})
@@ -33,9 +39,8 @@ func TestSpec(t *testing.T) {
 
 			req.PaymentSchedule = "someBadValue"
 
-			ok, err := Validate(req)
+			err := Validate(req)
 
-			So(ok, ShouldBeFalse)
 			So(err.Error(), ShouldEqual,
 				"validation error, PaymentSchedule must be one of Weekly, biweekly or monthly")
 		})
@@ -46,9 +51,8 @@ func TestSpec(t *testing.T) {
 				req.AskingPrice = 10000
 				req.DownPayment = 499
 
-				ok, err := Validate(req)
+				err := Validate(req)
 
-				So(ok, ShouldBeFalse)
 				So(err.Error(), ShouldEqual,
 					"validation error, minimum downpayment on $100.00 is $5.00")
 			})
@@ -58,9 +62,8 @@ func TestSpec(t *testing.T) {
 				req.AskingPrice = 75000000
 				req.DownPayment = 500
 
-				ok, err := Validate(req)
+				err := Validate(req)
 
-				So(ok, ShouldBeFalse)
 				So(err.Error(), ShouldEqual, "validation error, minimum downpayment on $750000.00 is $50000.00")
 			})
 		})
@@ -70,9 +73,8 @@ func TestSpec(t *testing.T) {
 				req := sampleRequest
 				req.AmortizationPeriod = 4
 
-				ok, err := Validate(req)
+				err := Validate(req)
 
-				So(ok, ShouldBeFalse)
 				So(err.Error(), ShouldEqual, "validation error, the amortization period must be between 5 and 25 years")
 			})
 		})
