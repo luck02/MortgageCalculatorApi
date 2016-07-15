@@ -7,6 +7,12 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+/*
+confirmed calculation at:
+http://www.vertex42.com/ExcelArticles/amortization-calculation.html
+
+*/
+
 var sampleRequest = models.MortgagePaymentRequest{
 	AskingPrice:        100000,
 	DownPayment:        5000,
@@ -19,11 +25,9 @@ func TestSpec(t *testing.T) {
 		Convey("mortgage insurance rates", func() {
 			req := sampleRequest
 
-			req.AskingPrice = 0
-
 			payment, err := CalculatePayment(req)
 
-			So(payment, ShouldEqual, 0)
+			So(payment, ShouldEqual, 2455)
 			So(err, ShouldBeNil)
 
 		})

@@ -8,7 +8,7 @@ Reviwer notes:  This would definitely be some sort of independant service.
 I cant imagine this simplistic of an implementation that didn't change
 constantly.
 
-Certianly at the least the lookup table would be dynamically queried, possibly
+Certainly at the least the lookup table would be dynamically queried, possibly
 cached in case of massive access but would need to be queried in real time
 before approving a mortgage.  In fact I don't think this should be part of this
 calculator at all, it should be a service that lives elsewhere. Realistically
