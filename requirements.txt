@@ -29,4 +29,4 @@ Payment formula: P = L[c(1 + c)^n]/[(1 + c)^n - 1]
 P = Payment
 L = Loan Principal
 c = Interest Rate
-n = Number of payments 
+n = Number of payments

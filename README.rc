@@ -1,0 +1,14 @@
+NOTES:
+* I'm not going to calculate for excess of 1m IE I'm not going to add the logic to fail mortgages in excess of 1m that have less than 20%.  I'd want to get this in front of a project person to ensure that's really what they want.
+
+* I did however capture that mortgage Insurance should probably only be calculated on the actual amount loaned rather than on the AskingPrice
+
+* file: mortgagePaymentApi.rc is a single advanced rest client test for the actual API.  (https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo)
+
+Generally speaking I was going for something relatively quick and ignored all of the real software engineering / architecture questions.
+
+This is intended to show problem decomposition, not so much systems architecture.  As such, I didn't spend time really decoupling the important bits and certainly you could never deploy this.  There's no data driving the tables, rates etc.  There could be additional repo's that stub out the calls but it seemed overkill.
+
+There are a few pieces that need more testing (serialization / deseriaization, paymentSchedule isn't full tested etc).  But, with the exception of the paymentSchedule component, those would become integration tests in the future and that was out of scope.
+
+Looking forward to discussing.

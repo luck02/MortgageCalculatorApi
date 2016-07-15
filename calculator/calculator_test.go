@@ -11,6 +11,9 @@ import (
 confirmed calculation at:
 http://www.vertex42.com/ExcelArticles/amortization-calculation.html
 
+This is pretty shallow testing but gets the point across.  I would probably
+require a set of test cases from business or QA or someone of that ilk rather
+than rolling a whole set of my own.
 */
 
 var sampleRequest = models.MortgagePaymentRequest{
