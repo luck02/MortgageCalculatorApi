@@ -1,5 +1,6 @@
 package calculator
 
-func calculatePayment() {
+func CalculatePayment(model.MortgagePaymentRequest) (int64, error) {
 
+	return 0, nil
 }

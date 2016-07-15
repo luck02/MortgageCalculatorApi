@@ -8,24 +8,21 @@ import (
 )
 
 var sampleRequest = models.MortgagePaymentRequest{
-	AskingPrice:        1,
-	DownPayment:        1,
-	PaymentSchedule:    "Weekly",
-	AmortizationPeriod: 5,
+	AskingPrice:        100000,
+	DownPayment:        5000,
+	PaymentSchedule:    "Monthly",
+	AmortizationPeriod: 25,
 }
 
 func TestSpec(t *testing.T) {
-	Convey("request validation", t, func() {
-		Convey("The basic request must be sane", func() {
+	Convey("calculator", t, func() {
+		Convey("mortgage insurance rates", func() {
 			req := sampleRequest
 
 			req.AskingPrice = 0
 
-			ok, err := Validate(req)
+			payment, err := CalculatePayment(req)
 
-			So(ok, ShouldBeFalse)
-			So(err.Error(), ShouldEqual,
-				"validation error, asking price must be > 0")
 		})
 
 	})
