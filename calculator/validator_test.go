@@ -64,6 +64,18 @@ func TestSpec(t *testing.T) {
 				So(err.Error(), ShouldEqual, "validation error, minimum downpayment on $750000.00 is $50000.00")
 			})
 		})
+
+		Convey("The amortizationPeriod", func() {
+			Convey("Must be between 5 and 25 years", func() {
+				req := sampleRequest
+				req.AmortizationPeriod = 4
+
+				ok, err := Validate(req)
+
+				So(ok, ShouldBeFalse)
+				So(err.Error(), ShouldEqual, "validation error, the amortization period must be between 5 and 25 years")
+			})
+		})
 	})
 
 }

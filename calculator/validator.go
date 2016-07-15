@@ -10,9 +10,19 @@ import (
 
 var paymentScheduleValues = []string{"Weekly", "BiWeekly", "Monthly"}
 
+/*
+Wanted to leave a note for reviewers.  Values below would probably originate in
+a policy service of some sort.  This is not production worthy code, just
+an example of problem decomposition.  In fact a quick spike to prove out
+a point would be worthwhile, Mostly to ensure we'd caught all the unexpected
+edge cases etc.
+*/
+
 const lowMortgageMinimumDownpaymentAmount = .05
 const highMortgageAmount = 50000000
 const highMortgageMinimumDownpaymentPercent = .10
+const minAmortizationPeriod = 5
+const maxAmortizationPeriod = 25
 
 func formatAmountForError(amount int64) string {
 	return fmt.Sprintf("%.2f", float64(amount)/100)
@@ -79,5 +89,9 @@ func calculateMinimumDownpaymentAmount(askingPrice, downpayment int64) int64 {
 }
 
 func validateAmortizationPeriod(amortizationPeriod int16) error {
+	if amortizationPeriod < minAmortizationPeriod ||
+		amortizationPeriod > maxAmortizationPeriod {
+		return fmt.Errorf("validation error, the amortization period must be between %d and %d years", minAmortizationPeriod, maxAmortizationPeriod)
+	}
 	return nil
 }
