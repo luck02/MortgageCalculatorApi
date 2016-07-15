@@ -1,4 +1,4 @@
-package calculator_test
+package calculator
 
 import (
 	"testing"
@@ -22,6 +22,9 @@ func TestSpec(t *testing.T) {
 			req.AskingPrice = 0
 
 			payment, err := CalculatePayment(req)
+
+			So(payment, ShouldEqual, 0)
+			So(err, ShouldBeNil)
 
 		})
 

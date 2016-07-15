@@ -76,5 +76,9 @@ func TestSpec(t *testing.T) {
 				So(err.Error(), ShouldEqual, "validation error, the amortization period must be between 5 and 25 years")
 			})
 		})
+
+		Convey("We should test to ensure the downpayment doesn't exceed the askingprice", func() {
+
+		})
 	})
 }
