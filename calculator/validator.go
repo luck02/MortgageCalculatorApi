@@ -1,13 +1,36 @@
 package validator
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/luck02/MortgageCalculatorApi/models"
 )
 
-// Validate : Takes a request and confirms it matches validation rules
-// as given in ../requirements.txt
+const minimumDownpaymentPercent = .05
+
 func Validate(mortgagePaymentRequest models.MortgagePaymentRequest) (bool, error) {
-	return false, errors.New("derp")
+	err := validateDownpaymentMinimum(
+		mortgagePaymentRequest.AskingPrice,
+		mortgagePaymentRequest.DownPayment,
+	)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func formatAmountForError(amount int64) string {
+	return fmt.Sprintf("%.2f", float64(amount)/100)
+}
+
+func validateDownpaymentMinimum(askingPrice, downpayment int64) error {
+	var minimumRequiredDownpayment = int64(float64(askingPrice) * minimumDownpaymentPercent)
+
+	if downpayment < minimumRequiredDownpayment {
+		return fmt.Errorf("validation error, minimum downpayment on $%s should $%s",
+			formatAmountForError(askingPrice), formatAmountForError(minimumRequiredDownpayment))
+	}
+
+	return nil
 }
