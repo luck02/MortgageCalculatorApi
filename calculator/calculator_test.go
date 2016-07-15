@@ -27,7 +27,7 @@ func TestSpec(t *testing.T) {
 
 			payment, err := CalculatePayment(req)
 
-			So(payment, ShouldEqual, 2455)
+			So(payment, ShouldEqual, 2451)
 			So(err, ShouldBeNil)
 
 		})

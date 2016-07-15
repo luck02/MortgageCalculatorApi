@@ -14,6 +14,8 @@ before approving a mortgage.  In fact I don't think this should be part of this
 calculator at all, it should be a service that lives elsewhere. Realistically
 we would want to model the interface and then mock that out and not test the
 implementation here at all.
+
+One additional point is that
 */
 
 type rate struct {
@@ -30,7 +32,7 @@ var rateTable = []rate{
 
 func CalculateMortgageInsurance(askingPrice, downpayment int64) int64 {
 	var rate = getRate(askingPrice, downpayment)
-	var insuranceCost = rate * float64(askingPrice)
+	var insuranceCost = rate * float64(askingPrice-downpayment)
 	return int64(math.Floor(insuranceCost + .5))
 }
 
