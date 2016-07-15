@@ -24,7 +24,20 @@ func TestSpec(t *testing.T) {
 			ok, err := Validate(req)
 
 			So(ok, ShouldBeFalse)
-			So(err.Error(), ShouldEqual, "validation error, asking price must be > 0")
+			So(err.Error(), ShouldEqual,
+				"validation error, asking price must be > 0")
+		})
+
+		Convey("payment schedule must be recognized value", func() {
+			req := sampleRequest
+
+			req.PaymentSchedule = "someBadValue"
+
+			ok, err := Validate(req)
+
+			So(ok, ShouldBeFalse)
+			So(err.Error(), ShouldEqual,
+				"validation error, PaymentSchedule must be one of Weekly, biweekly or monthly")
 		})
 
 		Convey("A downpayment", func() {
@@ -36,7 +49,8 @@ func TestSpec(t *testing.T) {
 				ok, err := Validate(req)
 
 				So(ok, ShouldBeFalse)
-				So(err.Error(), ShouldEqual, "validation error, minimum downpayment on $100.00 should $5.00")
+				So(err.Error(), ShouldEqual,
+					"validation error, minimum downpayment on $100.00 is $5.00")
 			})
 
 			Convey("Must be at least 10\\% of amount above 500k", func() {

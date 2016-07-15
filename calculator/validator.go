@@ -4,10 +4,13 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/forestgiant/sliceutil"
 	"github.com/luck02/MortgageCalculatorApi/models"
 )
 
-const minimumDownpaymentPercent = .05
+var paymentScheduleValues = []string{"Weekly", "BiWeekly", "Monthly"}
+
+const lowMortgageMinimumDownpaymentAmount = .05
 const highMortgageAmount = 50000000
 const highMortgageMinimumDownpaymentPercent = .10
 
@@ -25,6 +28,13 @@ func Validate(mortgagePaymentRequest models.MortgagePaymentRequest) (bool, error
 		mortgagePaymentRequest.AskingPrice,
 		mortgagePaymentRequest.DownPayment,
 	)
+
+	if err != nil {
+		return false, err
+	}
+
+	err = validateAmortizationPeriod(mortgagePaymentRequest.AmortizationPeriod)
+
 	if err != nil {
 		return false, err
 	}
@@ -37,16 +47,37 @@ func sanityCheck(mortgagePaymentRequest models.MortgagePaymentRequest) error {
 		return errors.New("validation error, asking price must be > 0")
 	}
 
+	if !sliceutil.Contains(paymentScheduleValues, mortgagePaymentRequest.PaymentSchedule) {
+		return errors.New("validation error, PaymentSchedule must be one of Weekly, biweekly or monthly")
+	}
+
 	return nil
 }
 
 func validateDownpaymentMinimum(askingPrice, downpayment int64) error {
-	var minimumRequiredDownpayment = int64(float64(askingPrice) * minimumDownpaymentPercent)
+	var minimumRequiredDownpayment = calculateMinimumDownpaymentAmount(askingPrice, downpayment)
 
 	if downpayment < minimumRequiredDownpayment {
-		return fmt.Errorf("validation error, minimum downpayment on $%s should $%s",
+		return fmt.Errorf("validation error, minimum downpayment on $%s is $%s",
 			formatAmountForError(askingPrice), formatAmountForError(minimumRequiredDownpayment))
 	}
 
+	return nil
+}
+
+func calculateMinimumDownpaymentAmount(askingPrice, downpayment int64) int64 {
+	var minimumDownpayment = int64(0)
+
+	if askingPrice > highMortgageAmount {
+		minimumDownpayment += int64(float64(highMortgageAmount) * lowMortgageMinimumDownpaymentAmount)
+		minimumDownpayment += int64(float64(askingPrice-highMortgageAmount) * highMortgageMinimumDownpaymentPercent)
+	} else {
+		minimumDownpayment += int64(float64(askingPrice) * lowMortgageMinimumDownpaymentAmount)
+	}
+
+	return minimumDownpayment
+}
+
+func validateAmortizationPeriod(amortizationPeriod int16) error {
 	return nil
 }
