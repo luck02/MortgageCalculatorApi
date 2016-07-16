@@ -22,12 +22,12 @@ Missing pieces:
 func main() {
 
 	fmt.Println(fmt.Sprintf("Server starting on port:%d", port))
-	http.HandleFunc("/", requestToBidHandler)
+	http.HandleFunc("/", paymentEstimatorHandler)
 	fmt.Println(http.ListenAndServe(fmt.Sprintf("localhost:%d", port), nil))
 
 }
 
-func requestToBidHandler(w http.ResponseWriter, r *http.Request) {
+func paymentEstimatorHandler(w http.ResponseWriter, r *http.Request) {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(r.Body)
 	model := models.MortgagePaymentRequest{}
