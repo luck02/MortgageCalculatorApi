@@ -12,6 +12,7 @@ const weekly = "Weekly"
 const biweekly = "BiWeekly"
 const monthly = "Monthly"
 const interestRate = 0.025 // Another distributed component to serve this
+
 func CalculatePayment(model models.MortgagePaymentRequest) (int64, error) {
 	err := validator.Validate(model)
 	if err != nil {
@@ -28,6 +29,7 @@ func CalculatePayment(model models.MortgagePaymentRequest) (int64, error) {
 	return int64(math.Floor(payment + .5)), nil
 }
 
+// needs testing + the magic numbers below... But it's not like weeks / year are likely to change
 func calculateNumberPayments(paymentSchedule string, amortizationPeriod int16) int {
 	switch paymentSchedule {
 	case weekly:
