@@ -37,6 +37,4 @@ func calculateNumberPayments(paymentSchedule string, amortizationPeriod int16) i
 	case monthly:
 		return int(amortizationPeriod * int16(12))
 	}
-
-	return 12
 }
