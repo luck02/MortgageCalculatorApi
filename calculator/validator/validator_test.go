@@ -23,6 +23,7 @@ func TestSpec(t *testing.T) {
 
 			So(err, ShouldBeNil)
 		})
+		
 		Convey("The basic request must be sane", func() {
 			req := sampleRequest
 
