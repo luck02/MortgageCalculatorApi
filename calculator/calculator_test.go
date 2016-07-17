@@ -25,15 +25,13 @@ var sampleRequest = models.MortgagePaymentRequest{
 
 func TestSpec(t *testing.T) {
 	Convey("calculator", t, func() {
-		Convey("mortgage insurance rates", func() {
+		Convey("payment is correct", func() {
 			req := sampleRequest
 
 			payment, err := CalculatePayment(req)
 
 			So(payment, ShouldEqual, 2451)
 			So(err, ShouldBeNil)
-
 		})
-
 	})
 }
