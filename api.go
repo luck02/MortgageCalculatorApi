@@ -20,19 +20,17 @@ Missing pieces:
 */
 
 func main() {
-
 	fmt.Println(fmt.Sprintf("Server starting on port:%d", port))
 	http.HandleFunc("/", paymentEstimatorHandler)
 	fmt.Println(http.ListenAndServe(fmt.Sprintf("localhost:%d", port), nil))
-
 }
 
 func paymentEstimatorHandler(w http.ResponseWriter, r *http.Request) {
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(r.Body)
 	model := models.MortgagePaymentRequest{}
+	
 	err := json.Unmarshal(buf.Bytes(), &model)
-
 	if err != nil {
 		w.WriteHeader(400)
 		return
@@ -52,5 +50,4 @@ func paymentEstimatorHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(mortgagePaymentResponse)
-
 }
